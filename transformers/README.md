@@ -1,0 +1,1 @@
+Dataset credit: https://github.com/ayaka14732/wordshk-parallel-corpus
