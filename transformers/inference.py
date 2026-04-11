@@ -23,7 +23,7 @@ model = Transformer(
     source_l_layers=3, 
     target_l_layers=3, 
     max_seq_len=512, 
-    dropout=0.0
+    dropout=0.0,
 )
 
 model.load_state_dict(torch.load(os.path.join(HERE, "best_model.pt"), map_location=device, weights_only=True))
