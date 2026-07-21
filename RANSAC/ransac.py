@@ -39,12 +39,10 @@ for _ in range(ITERS):
     c1x, c1y = c1
     c2x, c2y = c2
     include = 0
-    for px, py in points:
-        ax, ay = px - c1x, py - c1y
-        bx, by = c2x - c1x, c2y - c1y
-        distance = abs(ax * by - ay * bx) / np.linalg.norm((bx, by))
-        if distance < DEVIATION:
-            include += 1
+    ax, ay = points[:, 0] - c1x, points[:, 1] - c1y
+    bx, by = c2x - c1x, c2y - c1y
+    distances = np.abs(ax * by - ay * bx) / np.linalg.norm((bx, by))
+    include = np.count_nonzero(distances < DEVIATION)
     if include > best_case:
         best_case = include
         best_fit = by/bx
@@ -53,13 +51,7 @@ print(f"Real slope: {slope}")
 print(f"Slope: {best_fit}")
 
 s = BOUNDS
-center = BOUNDS // 2
-draw.line([
-    (center - s, center - s * slope),
-    (center + s, center + s * slope)
-], fill="green", width=10)
-draw.line([
-    (center - s, center - s * best_fit),
-    (center + s, center + s * best_fit)
-], fill="blue", width=5)
+dotmin, dotmax = BOUNDS // 2 - s, BOUNDS // 2 + s
+draw.line([(dotmin, dotmin * slope), (dotmax, dotmax * slope)], fill="green", width=10)
+draw.line([(dotmin, dotmin * best_fit), (dotmax, dotmax * best_fit)], fill="blue", width=5)
 img.save("dots.png")
